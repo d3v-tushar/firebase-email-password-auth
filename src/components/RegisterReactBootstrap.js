@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -40,11 +40,22 @@ const RegisterReactBootstrap = () => {
             console.log(user);
             setSuccess(true);
             form.reset();
+            updateUserName(name);
         })
         .catch(error =>{
             console.error('Error: ', error);
             setPasswordError(error.message);
         })
+    }
+
+    const updateUserName = (name) =>{
+        updateProfile(auth.currentUser, {
+            displayName: name
+          }).then(() => {
+            console.log('displayName Updated', name);
+          }).catch((error) => {
+            console.error(error)
+          });
     }
     return (
         <div className='w-25 m-auto my-5'>
