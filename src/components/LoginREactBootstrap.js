@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import app from '../firebase/firebase.init';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const auth = getAuth(app);
 
@@ -110,7 +111,7 @@ const LoginREactBootstrap = () => {
                 <div>
                     <button onClick={handleGoogleSignIn}>Google Sign In</button>
                     <button onClick={handleFacebookSignIn}>Facebook Sign In</button>
-                    <button onClick={handleGithubSignIn}>Github Sign In</button>
+                    <button onClick={handleGithubSignIn}>Github<FontAwesomeIcon icon="fa-brands fa-github" /></button>
                 </div>
             }
             <br />
