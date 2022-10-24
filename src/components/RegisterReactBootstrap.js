@@ -1,9 +1,11 @@
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import app from '../firebase/firebase.init';
+import 'react-toastify/dist/ReactToastify.css';
 
 const auth = getAuth(app);
 const RegisterReactBootstrap = () => {
@@ -39,8 +41,9 @@ const RegisterReactBootstrap = () => {
             const user = result.user;
             console.log(user);
             setSuccess(true);
-            form.reset();
+            // form.reset();
             updateUserName(name);
+            sendVerificationEmail();
         })
         .catch(error =>{
             console.error('Error: ', error);
@@ -56,6 +59,25 @@ const RegisterReactBootstrap = () => {
           }).catch((error) => {
             console.error(error)
           });
+    }
+
+    const sendVerificationEmail = () =>{
+        sendEmailVerification(auth.currentUser)
+        .then(() =>{
+            toast.success("Verification Email Sent!", {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        })
+        .catch(error =>{
+            toast(error.message);
+        })
     }
     return (
         <div className='w-25 m-auto my-5'>
@@ -83,6 +105,7 @@ const RegisterReactBootstrap = () => {
                 </Button>
             </Form>
             <p className='my-1'><small>Already have an account? Please <Link to='/login'>Login</Link></small></p>
+            <ToastContainer />
         </div>
     );
 };
